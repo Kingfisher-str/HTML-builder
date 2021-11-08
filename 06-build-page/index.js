@@ -108,49 +108,59 @@ function copyCss(){
 }
 copyCss();
 
-function copyHtml(){
-    fs.copyFile(path.join(__dirname, 'template.html'),path.join(__dirname, 'project-dist', 'index.html'),err =>{
+function readTemplate(){
+    fs.readFile(path.join(__dirname, 'template.html'), 'utf8', function (err, data) {
         if(err) {
             console.error(err)
     return
         }; 
-        console.log(11111)
+        let contentTemp = data;
+        console.log(data)
+        // outputhtml.write(contentTemp)
     })
-}
-copyHtml();
+    fs.readdir(path.join(__dirname, 'components'), (err, files3) => {
+        if (err) {
+           console.log(err);
+           return
+       }
+     files3.forEach(file3 => {
 
-// function replaceHtml(){
-// //     //let array=[];
-//  fs.readdir(path.join(__dirname, 'components'), (err, files3) => {
-//          if (err) {
-//             console.log(err);
-//             return
-//         }
-//       files3.forEach(file3 => {
-
-//                 fs.readFile(path.join(__dirname, 'components', file3 ),'utf8', function(err, data) {
-//                     if(err) {
-//                     console.error(err)
-//                     return
-//                     }
-//                     let basename = path.basename(file3,ext);
-//                     //     basename = basename.split('.').join('');
-//                     console.log(basename);
-//                     let regExp = /{{${basename}}}/g;
-//                     let content = data
-//                     let newData = data.replace (regExp, content);
-//                     console.log(newData);
-                 
-                   
-//                 });  
+               fs.readFile(path.join(__dirname, 'components', file3 ),'utf8', function(err, data1) {
+                   if(err) {
+                   console.error(err)
+                   return
+                   }
+                   let ext = path.extname(file3);
+                   ext = ext.split('.').join('');
+                   let basename = path.basename(file3,ext);
+                   basename = basename.split('.').join('');
+                   console.log(basename);
+                   let regExp = /{{${basename}}}/g;
+                   let content = data1
+                let newData = data1.replace (regExp, content);
                
-//             }
-// //         })
-// //       });
-    
-    
-    
-// //     });
-//       )})
-// }
-// replaceHtml();
+                    console.log(newData);
+                     outputhtml.write(newData)
+            //        fs.readFile(path.join(__dirname, 'project-dist', 'index.html' ),'utf8', function(err, data1) {
+            //         if(err) {
+            //         console.error(err)
+            //         return
+            //         }
+                   
+            //         let newData = data1.replace (regExp, content);
+            //         console.log(newData);
+            //          outputhtml.write(newData)
+                  
+            //    });  
+              
+           }
+//         })
+//       });
+   
+   
+   
+//     });
+     )}) 
+} )}
+readTemplate();
+

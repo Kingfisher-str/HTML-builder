@@ -19,7 +19,7 @@ const outputhtml = fs.createWriteStream(path.join(__dirname,'project-dist','inde
             return
         }
       dirs.forEach(dir => {
-        console.log(dir);
+        // console.log(dir);
         fs.stat(path.join(__dirname, 'assets', dir ), (err, stats) => {
             if (err) {
                 console.error(err)
@@ -39,14 +39,14 @@ const outputhtml = fs.createWriteStream(path.join(__dirname,'project-dist','inde
                         return
                     }
                   dirs2.forEach(dir2 => {
-                    console.log(dir2);
+                    // console.log(dir2);
                     fs.stat(path.join(__dirname, 'assets', dir, dir2 ), (err, stats) => {
                         if (err) {
                             console.error(err)
                             return
                         }
                         if (stats.isFile()){
-                            console.log(path.join(__dirname, 'assets', dir, dir2));  
+                            // console.log(path.join(__dirname, 'assets', dir, dir2));  
                             fs.copyFile(path.join(__dirname, 'assets', dir, dir2),path.join(__dirname,'project-dist', 'assets', dir, dir2),err =>{
                                 if(err) {
                                     console.error(err)
@@ -141,7 +141,7 @@ function readTemplate(){
                    let content = data1
                              
                    contentTemp = contentTemp.replace (`{{${basename}}}`, content);
-                    console.log('===', contentTemp,'===');
+                    // console.log('===', contentTemp,'===');
                                              
                }
                );  

@@ -9,8 +9,8 @@ fs.mkdir(path.join(__dirname, 'project-dist'), { recursive: true }, err => {
     if(err) throw err; 
     // console.log('Все папки успешно созданы');
  });
- const outputhtml = fs.createWriteStream(path.join(__dirname,'project-dist','index.html'));
- const outputcss = fs.createWriteStream(path.join(__dirname,'project-dist','syle.css'));
+const outputhtml = fs.createWriteStream(path.join(__dirname,'project-dist','index.html'), {flags: 'w'});
+ const outputcss = fs.createWriteStream(path.join(__dirname,'project-dist','style.css'));
 
  function copyDir1() {
        fs.readdir(path.join(__dirname, 'assets'), (err, dirs) => {
@@ -109,58 +109,59 @@ function copyCss(){
 copyCss();
 
 function readTemplate(){
+    let contentTemp='';
     fs.readFile(path.join(__dirname, 'template.html'), 'utf8', function (err, data) {
         if(err) {
             console.error(err)
     return
         }; 
-        let contentTemp = data;
-        console.log(data)
+        contentTemp = data;
+        // console.log(contentTemp)
         // outputhtml.write(contentTemp)
-    })
-    fs.readdir(path.join(__dirname, 'components'), (err, files3) => {
+          
+        
+    fs.readdir(path.join(__dirname, 'components'), (err, files) => {
         if (err) {
            console.log(err);
            return
        }
-     files3.forEach(file3 => {
+     files.forEach(file => {
 
-               fs.readFile(path.join(__dirname, 'components', file3 ),'utf8', function(err, data1) {
+               fs.readFile(path.join(__dirname, 'components', file ),'utf8', function(err, data1) {
                    if(err) {
                    console.error(err)
                    return
                    }
-                   let ext = path.extname(file3);
+                   let ext = path.extname(file);
                    ext = ext.split('.').join('');
-                   let basename = path.basename(file3,ext);
+                   let basename = path.basename(file,ext);
                    basename = basename.split('.').join('');
-                   console.log(basename);
-                   let regExp = /{{${basename}}}/g;
+                //    console.log(basename);
+             
                    let content = data1
-                let newData = data1.replace (regExp, content);
-               
-                    console.log(newData);
-                     outputhtml.write(newData)
-            //        fs.readFile(path.join(__dirname, 'project-dist', 'index.html' ),'utf8', function(err, data1) {
-            //         if(err) {
-            //         console.error(err)
-            //         return
-            //         }
-                   
-            //         let newData = data1.replace (regExp, content);
-            //         console.log(newData);
-            //          outputhtml.write(newData)
-                  
-            //    });  
+                             
+                   contentTemp = contentTemp.replace (`{{${basename}}}`, content);
+                    console.log('===', contentTemp,'===');
+                                             
+               }
+               );  
               
+            
            }
-//         })
-//       });
+
+     )
+    ;
+    setTimeout(() => {
+        outputhtml.write(contentTemp)
+      }, 1000);
+    // let data = '';
+
    
-   
-   
-//     });
-     )}) 
-} )}
+    }) 
+      
+  
+    })
+    } 
+
 readTemplate();
 
